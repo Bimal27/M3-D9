@@ -29,7 +29,7 @@
     </nav>
 
     <div class="container">
-        <h1 class="text-align-center">Amazon New Product</h1>
+        <h1 id="page-title" class="text-align-center">Add New Product</h1>
         <div class="row justify-content-center">
 
             <div class="col-md-6">
@@ -65,6 +65,8 @@
         </div>
     </div>
     <script>
+        const params = new URLSearchParams(location.search)
+        const id = params.get('id')
 
         const url = "https://striveschool-api.herokuapp.com/api/product/"
         const headers = new Headers({
@@ -98,6 +100,9 @@
             } catch (err) {
                 alert(err)
             }
+        }
+        window.onload = function () {
+            if (id) document.querySelector("#page-title").innerHTML = "Edit Product"
         }
     </script>
 
