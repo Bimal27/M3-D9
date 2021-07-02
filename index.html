@@ -87,7 +87,7 @@
         })
         const method = id ? "PUT" : "POST"
         const products = (e) => {
-            setLoading(true)
+
             e.preventDefault()
 
             try {
@@ -113,11 +113,12 @@
                 })
                     .then(resp => resp.json())
 
+
             } catch (err) {
                 alert(err)
             }
 
-            setLoading(false)
+
         }
 
         async function getProductdetails(id) {
