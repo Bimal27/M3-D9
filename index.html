@@ -60,6 +60,9 @@
 
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="products(event)">Add</button>
+                    <button id="delete-btn" type="delete" class="d-none btn btn-danger"
+                        onclick="deleteProduct()">Delete</button>
+
                 </form>
             </div>
         </div>
@@ -74,6 +77,7 @@
             "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGRjNzMzNGIzNTgxNzAwMTVjMjI3NWIiLCJpYXQiOjE2MjUxNjIwNTMsImV4cCI6MTYyNjM3MTY1M30.beCRMnbWPQW-tGl2Q-9pdjNOoUxLGfP9vsDs2MZE1l0"
 
         })
+        const method = id ? "PUT" : "POST"
         const products = (e) => {
             e.preventDefault()
             try {
@@ -87,8 +91,10 @@
                 }
                 console.log(dataFromForm)
 
-                fetch(url, {
-                    method: "POST",
+                const endpoint = id ? url + id : url
+
+                fetch(endpoint, {
+                    method,
                     body: JSON.stringify(dataFromForm),//get Information from the form in object format,
                     headers: {
                         "Content-Type": "application/json",
@@ -100,9 +106,36 @@
             } catch (err) {
                 alert(err)
             }
+
+        }
+
+        async function getProductdetails(id) {
+            const response = await fetch(url + id, { headers })
+            const product = await response.json()
+            console.log(product)
+
+            Object.keys(product).forEach(key => {
+                const field = document.querySelector(`#${key}`)
+                if (field) field.value = product[key]
+            })
+        }
+        async function deleteProduct() {
+            try {
+                const response = await fetch(url + id, { method: 'DELETE', headers })
+                if (!response.ok) throw new Error("Failed to delete product")
+
+                alert("Product deleted successfully.")
+
+            } catch (error) {
+                console.log(error.message)
+            }
         }
         window.onload = function () {
-            if (id) document.querySelector("#page-title").innerHTML = "Edit Product"
+            if (id) {
+                document.querySelector("#page-title").innerHTML = "Edit Product"
+                document.querySelector("#delete-btn").classList.remove("d-none")
+                getProductdetails(id)
+            }
         }
     </script>
 
