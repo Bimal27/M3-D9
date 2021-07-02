@@ -86,18 +86,20 @@
           let row = document.getElementById("product")
           row.innerHTML = ""
           data.forEach((product) => {
-            console.log(product)
+
             row.innerHTML += `<div class="col col-sm-12 col-md-4 col-lg-3 mx-2 my-2">
         <div class="card">
           <img src="${product.imageUrl}" class="card-img-top">
           <div class="card-body">
             <h5 class="card-title">${product.brand}</h5>
             <p class="card-text">${product.description}</p>
+            <a class = "btn btn-warning" href="index.html?id=${product._id}">Edit</a>
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item">${product.name}</li>
             <li class="list-group-item">${product.price} €</li>
           </ul>
+         </div>
         </div>`
 
           });
